@@ -9,13 +9,21 @@ import org.apache.catalina.startup.Tomcat;
 
 public class ServerClass {
     public ServerClass(){
+        // Just the constructor.
+    }
+
+    public void BeginServer(){
+        AllElseServlet allElseServlet = new AllElseServlet();
         Tomcat server = new Tomcat();
         server.setBaseDir("java.io.tmpdir");
         server.setPort(8080);
         server.getConnector();
         server.addContext("",null);
+        server.addServlet("", "Default", allElseServlet).addMapping("/*");
+        server.addServlet("", "Default2", allElseServlet).addMapping("");
         server.addServlet("","DexSearch", new DexSearch()).addMapping("/pokemon");
         server.addServlet("","DexML", new DexML()).addMapping("/search");
+
         try {
             server.start();
         } catch (LifecycleException e) {
