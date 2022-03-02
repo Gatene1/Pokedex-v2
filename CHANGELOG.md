@@ -34,6 +34,23 @@ search results.</li>
 <li>Added the Type enumeration.
 </li>
 </ul>
+<hr>
+
+```
+Tuesday, 3/1/2022
+```
+<ul>
+<li>Finished all but a few items on my list.</li>
+<li>Decided to stick with my .csv file for having data.</li>
+<li>Added complete functionality to my index.html landing page.</li>
+<li>Completed functionality on search feature.</li>
+<li>Completed functionality of listing each Pokemon
+    in a table, neatly, with added features.</li>
+<li>Added and completed the showing of the raw .csv data to the user.</li>
+<li>Fixed a few bugs in my code that were getting in the way
+    of the app performing a successful search.</li>
+</ul>
+<hr>
 
 
 

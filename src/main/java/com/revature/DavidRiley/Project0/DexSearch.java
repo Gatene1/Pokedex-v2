@@ -1,12 +1,10 @@
 package com.revature.DavidRiley.Project0;
 
-import jakarta.servlet.Servlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -20,7 +18,7 @@ public class DexSearch extends HttpServlet {
     }
     @Override
     public void doGet(HttpServletRequest req, HttpServletResponse resp) {
-        String pokeListed = req.getParameter("searchPoke");
+        String pokeParam = req.getParameter("searchPoke");
         String lineRead;
         String[] pokeStringList = new String[15];
         ArrayList<Pokemon> pokeList = new ArrayList<Pokemon>();
@@ -34,9 +32,15 @@ public class DexSearch extends HttpServlet {
                     "                   <head>" +
                     "                       <meta charset='UTF-8'>" +
                     "                       <title>The Pok&eacute;dex Search Results</title>" +
+                    "                       <style>" +
+                    "                           a {color:#000000;}" +
+                    "                           a:hover {font-weight:bold;}" +
+                    "                           .highlight:hover {background-color:#d7d7ff;}" +
+                    "                       </style>" +
                     "                   </head>" +
                     "                   <body style='background-color:#e7e7e7; color:#4d4d4d;'>" +
                     "                       <h1><u><b>Search Results</b></u></h1><br>");
+
 
             String tableString = "<h2>Click the name of the Pok&eacute;mon to see its Pok&eacute;dex entry.<br><br>" +
                     "                                 <table border=2 cellpadding=5 cellspacing=0>" +
@@ -54,8 +58,7 @@ public class DexSearch extends HttpServlet {
                     "                       <td>Species</td>" +
                     "                       <td>Height</td>" +
                     "                       <td>Weight</td>" +
-                    "                  </tr>" +
-                    "                  <tr>";
+                    "                  </tr>";
             boolean tablePrinted = false;
             boolean addedToPokeArray = false;
             boolean lineReadContains = false;
@@ -66,32 +69,33 @@ public class DexSearch extends HttpServlet {
 
             while (scanner.hasNext()) {
                 lineRead = scanner.next();
-                if (lineRead.substring(0, 2) != "ID") lineRead = scanner.next();
-                // This is a oneliner saying if the scanner picked up the CSV headers, skip to the next line.
-                    if (pokeListed == null || pokeListed.equals(" "))
-                        resp.getWriter().println(lineRead.replaceAll("Pok.mon", "Pokémon") + "<br><br>");
-                    else if (lineRead.contains(pokeListed)) {
-                        // This branch of the conditional will display only the Pokemon that match the search
-                        // terms from the user input.
-                        lineRead.replaceAll("Pok.mon", "Pokémon");
-                        lineRead.replaceAll("Flab.b.", "Flabébé");
-                        pokeStringList = lineRead.split(",");
-                        addedToPokeArray = true;
-                        lineReadContains = true;
-                    } else if (pokeListed.equals("allPretty")) {
-                        // This has a separate branch in this conditional, because I do not want to print display
-                        // the overworld sprite of each 1,000+ Pokemon, but I do want to display the data neatly
-                        // in an interactive table.
-                        if (!tablePrinted) {
-                            resp.getWriter().println(tableString);
-                            tablePrinted = true;
-                        }
-                        lineRead.replaceAll("Pok.mon", "Pokémon");
-                        lineRead.replaceAll("Flab.b.", "Flabébé");
-                        pokeStringList = lineRead.split(",");
-                        addedToPokeArray = true;
-                        allPrettyTable = true;
+                if (lineRead.substring(0, 2).equals("ID")) lineRead = scanner.next();
+                    // This is a oneliner saying if the scanner picked up the CSV headers, skip to the next line.
+                if (pokeParam == null || pokeParam.equals(" ") || pokeParam.equals("")) {
+                    resp.getWriter().println(lineRead  + "<br><br>");
+                }
+                else if (lineRead.contains(pokeParam) && !pokeParam.equals("allPretty")) {
+                    // This branch of the conditional will display only the Pokemon that match the search
+                    // terms from the user input.
+                    lineRead.replaceAll("Pok.mon", "Pokémon");
+                    lineRead.replaceAll("Flab.b.", "Flabébé");
+                    pokeStringList = lineRead.split(",");
+                    addedToPokeArray = true;
+                    lineReadContains = true;
+                } else if (pokeParam.equals("allPretty")) {
+                    // This has a separate branch in this conditional, because I do not want to print display
+                    // the overworld sprite of each 1,000+ Pokemon, but I do want to display the data neatly
+                    // in an interactive table.
+                    if (!tablePrinted) {
+                        resp.getWriter().println(tableString);
+                        tablePrinted = true;
                     }
+                    lineRead.replaceAll("Pok.mon", "Pokémon");
+                    lineRead.replaceAll("Flab.b.", "Flabébé");
+                    pokeStringList = lineRead.split(",");
+                    addedToPokeArray = true;
+                    allPrettyTable = true;
+                }
 
                 if (addedToPokeArray) {
                     // If there was a Pokemon added to the array, continue building the Pokemon into the list.
@@ -110,21 +114,63 @@ public class DexSearch extends HttpServlet {
                             Integer.parseInt(pokeStringList[10]),
                             Integer.parseInt(pokeStringList[11]),
                             pokeStringList[12],
-                            Float.parseFloat(pokeStringList[13].replace(" m", "")),
-                            Float.parseFloat(pokeStringList[14].replace(" kg", "")))
+                            pokeStringList[13],
+                            pokeStringList[14])
                     );
-                    if (lineReadContains) {
+                    int pokeCount = pokeList.size() - 1;
+                    if (lineReadContains && !allPrettyTable) {
                         // If the search results contained the string the user inputted in the search field.
                         lineReadContains = false;
-                        resp.getWriter().println("<table name='Pokedex Entry' border=0 cellspacing=0 cellpadding=0>" +
+                        String pokeID = AddZeroesToID(pokeList.get(pokeCount).id());
+                        String pokeImg = AddImageSuffix(pokeList.get(pokeCount).name(), pokeID);
+                        resp.getWriter().println("<table name='Pokedex Entry' border=0 cellspacing=5 cellpadding=0>" +
                                 "                   <tr valign='top'>" +
-                                "                       <td><img src='https://www.serebii.net/swordshield/pokemon/"+pokeStringList[1]+".png'></td>" +
-                                "                       <td>"+pokeStringList[2]+"</td>");
-                    }
-                    if (allPrettyTable) {
+                                "                       <td><img src='https://www.serebii.net/"+pokeImg+"'></td>" +
+                                "                       <td><font size='7'><b>"+pokeList.get(pokeCount).name().replaceAll("Flab.b.", "Flabébé")+
+                                "                       #"+pokeID+"</b></font><br>" +
+                                "                           <font size='5'>HT "+pokeList.get(pokeCount).ht()+", WT " + pokeList.get(pokeCount).wt()+"<br><br>" +
+                                "                           "+GetTypeImageName(pokeList.get(pokeCount).type1())+"&nbsp;&nbsp;&nbsp;" +
+                                "                           "+GetTypeImageName(pokeList.get(pokeCount).type2())+"<br><br>" +
+                                        "                   <i>"+pokeList.get(pokeCount).species().replaceAll("Pok.mon","Pokémon")+"</i>" +
+                                "                       </td>"+
+                                "                   </tr>" +
+                                "               </table>" +
+                                "               <table border=2 cellpadding=10 cellspacing=0>" +
+                                "                   <tr style='font-weight:bold; font-size:24pt; background-color:#d7d7d7; align:center'>" +
+                                "                       <td>HP</td>" +
+                                "                       <td>Atk</td>" +
+                                "                       <td>Def</td>" +
+                                "                       <td>SAtk</td>" +
+                                "                       <td>SDef</td>" +
+                                "                       <td>Spd</td>" +
+                                "                   </tr>" +
+                                "                   <tr style='font-size:24pt; align:center'>" +
+                                "                       <td>"+ pokeList.get(pokeCount).hp()+"</td>" +
+                                "                       <td>"+ pokeList.get(pokeCount).atk()+"</td>" +
+                                "                       <td>"+ pokeList.get(pokeCount).def()+"</td>" +
+                                "                       <td>"+ pokeList.get(pokeCount).sAtk()+"</td>" +
+                                "                       <td>"+ pokeList.get(pokeCount).sDef()+"</td>" +
+                                "                       <td>"+ pokeList.get(pokeCount).spd()+"</td>" +
+                                "                   </tr>" +
+                                "               </table><br><br>");
+                    } else if (allPrettyTable && tablePrinted) {
                         // If showing all Pokemon in a table.
                         allPrettyTable = false;
-                        resp.getWriter().println("all Pretty");
+                        resp.getWriter().println("<tr class='highlight'>" +
+                                "                   <td>"+AddZeroesToID(pokeList.get(pokeCount).id())+"</td>" +
+                                "                   <td><a href='/pokemon?searchPoke="+pokeList.get(pokeCount).id()+","+pokeList.get(pokeCount).name()+"'>"+pokeList.get(pokeCount).name()+"</a></td>" +
+                                "                   <td>"+pokeList.get(pokeCount).type1()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).type2()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).hp()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).atk()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).def()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).sAtk()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).sDef()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).spd()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).species()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).ht()+"</td>" +
+                                "                   <td>"+pokeList.get(pokeCount).wt()+"</td>" +
+                                "               </tr>");
                     }
                 }
             }
@@ -138,5 +184,115 @@ public class DexSearch extends HttpServlet {
         // On the flip side, if there is a Pokemon listed, I want it printed.
 
 
+    }
+
+    private String AddZeroesToID(int id){
+        // This will take the Pokemon's ID number and convert it into a string that will match the image
+        // name on the Website, to display.
+        String idConv = Integer.toString(id);
+        switch (idConv.length()) {
+            case 1:
+                idConv = "00"+id;
+                break;
+            case 2:
+                idConv = "0"+id;
+                break;
+            case 3:
+                break;
+        }
+        return idConv;
+    }
+
+    private String AddImageSuffix(String pokemonName, String id){
+        if(pokemonName.contains("(Mega")) {
+            if(pokemonName.contains("Charizard X"))
+                pokemonName = "xy/pokemon/"+id+"-mx.png";
+            else if(pokemonName.contains("Charizard Y"))
+                pokemonName = "xy/pokemon/"+id+"-my.png";
+            else if(pokemonName.contains("Mewtwo X"))
+                pokemonName = "xy/pokemon/"+id+"-my.png";
+            else if(pokemonName.contains("Mewtwo Y"))
+                pokemonName = "xy/pokemon/"+id+"-my.png";
+            else
+                pokemonName = "xy/pokemon/"+id + "-m.png";
+        }
+        else if(pokemonName.contains("(Alolan")) {
+            pokemonName = "swordshield/pokemon/"+id + "-a.png";
+        }
+        else if(pokemonName.contains("(Galarian")) {
+            pokemonName = "swordshield/pokemon/"+id + "-g.png";
+        }
+        else if(pokemonName.contains("Partner Pikachu")){
+            pokemonName = "swordshield/pokemon/"+id + "-o.png";
+        }
+        else {
+            pokemonName = "swordshield/pokemon/"+id+".png";
+        }
+        return pokemonName;
+    }
+
+    private String GetTypeImageName(Enum<Type> type){
+        String typeValue = type.name();
+        String imgURL = "<img style='height:25' src='https://www.serebii.net/pokedex-bw/type/";
+        switch (typeValue) {
+            case "BUG":
+                imgURL = imgURL + "bug.gif'>";
+            break;
+            case "DARK":
+                imgURL = imgURL + "dark.gif'>";
+            break;
+            case "DRAGON":
+                imgURL = imgURL + "dragon.gif'>";
+            break;
+            case "ELECTRIC":
+                imgURL = imgURL + "electric.gif'>";
+                break;
+            case "FAIRY":
+                imgURL = imgURL + "fairy.gif'>";
+                break;
+            case "FIGHTING":
+                imgURL = imgURL + "fighting.gif'>";
+                break;
+            case "FIRE":
+                imgURL = imgURL + "fire.gif'>";
+                break;
+            case "FLYING":
+                imgURL = imgURL + "flying.gif'>";
+                break;
+            case "GHOST":
+                imgURL = imgURL + "ghost.gif'>";
+                break;
+            case "GRASS":
+                imgURL = imgURL + "grass.gif'>";
+                break;
+            case "GROUND":
+                imgURL = imgURL + "ground.gif'>";
+                break;
+            case "ICE":
+                imgURL = imgURL + "ice.gif'>";
+                break;
+            case "NORMAL":
+                imgURL = imgURL + "normal.gif'>";
+                break;
+            case "POISON":
+                imgURL = imgURL + "poison.gif'>";
+                break;
+            case "PSYCHIC":
+                imgURL = imgURL + "psychic.gif'>";
+                break;
+            case "ROCK":
+                imgURL = imgURL + "rock.gif'>";
+                break;
+            case "STEEL":
+                imgURL = imgURL + "steel.gif'>";
+                break;
+            case "WATER":
+                imgURL = imgURL + "water.gif'>";
+                break;
+            default:
+                imgURL = "";
+                break;
+        }
+        return imgURL;
     }
 }

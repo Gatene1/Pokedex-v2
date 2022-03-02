@@ -9,11 +9,10 @@ import org.apache.catalina.mapper.Mapper;
 
 public class Pokemon {
     private int id, hp, atk, def, sAtk, sDef, spd;
-    private float ht, wt;
-    private String name, species;
+    private String name, species, ht, wt;
     private Enum<Type> type1, type2;
 
-    public Pokemon(int id, String name, Enum<Type> type1, Enum<Type> type2, int hp, int atk, int def, int sAtk, int sDef, int spd, String species, float ht, float wt){
+    public Pokemon(int id, String name, Enum<Type> type1, Enum<Type> type2, int hp, int atk, int def, int sAtk, int sDef, int spd, String species, String ht, String wt){
         this.id = id;
         this.name = name;
         this.type1 = type1;
@@ -108,20 +107,20 @@ public class Pokemon {
         return this;
     }
 
-    public float ht() {
+    public String ht() {
         return ht;
     }
 
-    public Pokemon setHt(int ht) {
+    public Pokemon setHt(String ht) {
         this.ht = ht;
         return this;
     }
 
-    public float wt() {
+    public String wt() {
         return wt;
     }
 
-    public Pokemon setWt(int wt) {
+    public Pokemon setWt(String wt) {
         this.wt = wt;
         return this;
     }
@@ -152,4 +151,6 @@ public class Pokemon {
         this.species = species;
         return this;
     }
+
+
 }
