@@ -25,6 +25,15 @@ public class DexSearch extends HttpServlet {
         Pokemon pokemon = new Pokemon();
 
         InputStream fileName = getClass().getClassLoader().getResourceAsStream("pokedex.csv");
+        Log logWrite = new Log();
+
+        if (pokeParam == null || pokeParam.equals("Search ANY Field!"))
+            logWrite.AddToLog("Viewed the raw data from the CSV file of all Pokemon", 1);
+        else if (pokeParam.equals("allPretty"))
+            logWrite.AddToLog("Viewed tabled list of all Pokemon", 1);
+        else
+            logWrite.AddToLog("Searched " + pokeParam, 1);
+
         Scanner scanner = new Scanner(fileName, "UTF-8");
         scanner.useDelimiter("\n");
         try {
@@ -66,12 +75,11 @@ public class DexSearch extends HttpServlet {
 
             pokeList.clear();
             // This is to make sure the list of Pokemon is clear and free to start adding a fresh list of Pokemon to print.
-
             while (scanner.hasNext()) {
                 lineRead = scanner.next();
                 if (lineRead.substring(0, 2).equals("ID")) lineRead = scanner.next();
                     // This is a oneliner saying if the scanner picked up the CSV headers, skip to the next line.
-                if (pokeParam == null || pokeParam.equals(" ") || pokeParam.equals("")) {
+                if (pokeParam == null || pokeParam.equals(" ") || pokeParam.equals("") || pokeParam.equals("Search ANY Field!")) {
                     resp.getWriter().println(lineRead  + "<br><br>");
                 }
                 else if (lineRead.contains(pokeParam) && !pokeParam.equals("allPretty")) {

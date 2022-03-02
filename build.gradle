@@ -9,7 +9,7 @@ mainClassName = 'com.revature.DavidRiley.Project0.App'
 
 jar{
     manifest{
-        attributes 'Main-Class' : mainClassName
+        attributes( 'Main-Class' : mainClassName )
     }
 }
 

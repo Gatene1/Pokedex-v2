@@ -1,7 +1,8 @@
 #<u>Pokedex V2</u>
 My version of the Pokedex starts with a simple menu where the user can
 search through the Pokedex by any piece of data in the database, or choose a
-Pokemon from a list to view its stats.
+Pokemon from a list to view its stats. Logging information is stored locally, and available for
+administrators view with a special link.
 ##<u>User Stories</u>
 
 <ul>

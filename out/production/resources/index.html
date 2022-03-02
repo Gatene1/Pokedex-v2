@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>THE Pok&eacutedex!</title>
+    <meta charset="UTF-8">
+
+    <script>
+        function Click(urlGoTo){
+            window.location.href = urlGoTo;
+        }
+    </script>
+</head>
+<body>
+<center><div style="align:center; width:50%; background-color:#e7e7e7;">
+    <h1><u>&nbsp;Welcome!&nbsp;</u></h1>
+    <h2>Choose an option below to get started...</h2>
+</div><br><br>
+    <input type="button" value = "Search through the Pokemon with keywords" style = "width:400px; height:50px; font-weight:bold;" onclick="Click('/search')"><br><br>
+    <input type="button" value = "Show me the complete list of Pokemon so I can choose" style="width:500px; height:50px; font-weight:bold;"onclick="Click('/pokemon?searchPoke=allPretty')"><br><br>
+    <input type="button" value = "Show me the raw data" style="width:250px; height:50px; font-weight:bold;" onclick="Click('/pokemon')"><br><br>
+</center>
+</body>
+</html>

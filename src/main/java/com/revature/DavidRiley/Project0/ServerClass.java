@@ -23,6 +23,7 @@ public class ServerClass {
         server.addServlet("", "Default2", allElseServlet).addMapping("");
         server.addServlet("","DexSearch", new DexSearch()).addMapping("/pokemon");
         server.addServlet("","DexML", new DexML()).addMapping("/search");
+        server.addServlet("","LoggingFeatures", new LogPrint()).addMapping("/log");
 
         try {
             server.start();

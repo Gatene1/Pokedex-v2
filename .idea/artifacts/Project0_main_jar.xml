@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="Project0.main:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/Project0_main_jar</output-path>
+    <properties id="ant-preprocessing">
+      <options enabled="true" />
+    </properties>
+    <root id="archive" name="Project0.main.jar">
+      <element id="module-output" name="Project0.main" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat.embed/tomcat-embed-core/10.1.0-M10/57096840f13a4d747b4c22e55455eacae2dea104/tomcat-embed-core-10.1.0-M10.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.h2database/h2/2.1.210/a7395ae43062f9237eb441137b789c518c7d4c2f/h2-2.1.210.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.apache.tomcat/tomcat-annotations-api/10.1.0-M10/8cdc2638c217612468ecd4757ba955d8f4480bb5/tomcat-annotations-api-10.1.0-M10.jar" path-in-jar="/" />
+    </root>
+  </artifact>
+</component>

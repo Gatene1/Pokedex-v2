@@ -16,10 +16,11 @@ import java.io.InputStream;
  */
 
 public class AllElseServlet extends HttpServlet {
+    Log logWrite = new Log();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp){
         String fileName = req.getPathInfo();
-
+        logWrite.AddToLog("Entered the menu system", 1);
         if(fileName == null || fileName.equals("/")) {
             fileName = "index.html";
         }

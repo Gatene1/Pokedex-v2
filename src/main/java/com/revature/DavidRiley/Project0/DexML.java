@@ -20,7 +20,9 @@ public class DexML extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+        Log logWriter = new Log();
         try {
+            logWriter.AddToLog("Viewed search page", 1);
             resp.getWriter().println("<html>" +
                     "                 <head>" +
                     "                     <title>Welcome to my Pok&eacute;dex!</title>" +
