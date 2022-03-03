@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.revature.DavidRiley.Project0.TypeTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2022-03-03T07:31:13" hostname="MSI" time="0.016">
+  <properties/>
+  <testcase name="TypeExisting()" classname="com.revature.DavidRiley.Project0.TypeTest" time="0.016"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

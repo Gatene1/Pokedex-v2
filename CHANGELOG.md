@@ -56,13 +56,13 @@ Tuesday, 3/1/2022
 Wednesday, 3/2/2022
 ```
 <ul>
-<li>Attempted to make an executable jar. I still included it in my resources
-though I couldn't get it to execute properly.</li>
+<li>I created my jar.</li>
 <li>Made UserLog.dat for logging information.</li>
 <li>Added Log and LogPrint methods and classes.</li>
 <li>Added logging information to each page</li>
 <li>Completed logging methods and filling the UserLog.dat</li>
 <li>Completed the server page that displays the logging information.</li>
+<li>Added 2 tests to my PokemonTest class to test the Pokemon.builder method.</li>
 </ul>
 <hr>
 
