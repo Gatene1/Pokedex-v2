@@ -66,4 +66,14 @@ Wednesday, 3/2/2022
 </ul>
 <hr>
 
+```
+Thursday, 3/3/2022
+```
+<ul>
+<li>Decided to add environment variables to my project.</li>
+<li>Added buttons to display the user log to the main index.html</li>
+<li>Also added the button to display the environment variables to index.html</li>
+</ul>
+<hr>
+
 

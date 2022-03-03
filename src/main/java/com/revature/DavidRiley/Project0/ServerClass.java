@@ -24,6 +24,7 @@ public class ServerClass {
         server.addServlet("","DexSearch", new DexSearch()).addMapping("/pokemon");
         server.addServlet("","DexML", new DexML()).addMapping("/search");
         server.addServlet("","LoggingFeatures", new LogPrint()).addMapping("/log");
+        server.addServlet("","EnvironmentVars", new EnvVar()).addMapping("/environment");
 
         try {
             server.start();
