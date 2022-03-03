@@ -11,6 +11,10 @@ import java.util.Map;
 
 public class EnvVar extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {
+
+        Log logClass = new Log();
+        logClass.AddToLog("Viewed User machine's environment variables.",1);
+
         Map<String, String> env = System.getenv();
         try {
 

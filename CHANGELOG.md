@@ -73,6 +73,7 @@ Thursday, 3/3/2022
 <li>Decided to add environment variables to my project.</li>
 <li>Added buttons to display the user log to the main index.html</li>
 <li>Also added the button to display the environment variables to index.html</li>
+<li>Added logging data for viewing the environment variables for the user's machine.</li>
 </ul>
 <hr>
 
