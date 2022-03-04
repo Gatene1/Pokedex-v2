@@ -9,14 +9,14 @@ import java.util.Map;
 public class App {
 
     public static void main(String[] args){
-         for (String env: args){
-            String value = System.getenv(env);
-            if (value != null) {
-                System.out.format("%s=%s%n", env, value);
-            } else {
-                System.out.format("%s is not assigned.%n", env);
-            }
-        }
+         for (String env: args) {
+             String value = System.getenv(env);
+             if (value != null) {
+                 System.out.format("%s=%s%n", env, value);
+             } else {
+                 System.out.format("%s is not assigned.%n", env);
+             }
+         }
 
         Log logClass = new Log();
         logClass.CreateLog();
